@@ -7,7 +7,8 @@ var servo = servolib.use(tessel.port['A']);
 
 
 var frequency = 100;
-var servo1    = 5; // We have a servo plugged in at position 1
+var motorPin    = 5;
+var rudderPin   = 4;
 
 var maxForward = 0.20;
 var maxReverse = 0.10;
@@ -18,22 +19,22 @@ var delay      = 3750;
 function calibrate(done) {
   async.series([
     function(callback) {
-      console.log('duty cycle: maxForward');
-      servo.setDutyCycle(servo1, maxForward, callback);
+      console.log('motor duty cycle: maxForward');
+      servo.setDutyCycle(motorPin, maxForward, callback);
     },
     function(callback) {
       setTimeout(callback, delay);
     },
     function(callback) {
-      console.log('duty cycle: maxReverse');
-      servo.setDutyCycle(servo1, maxReverse, callback);
+      console.log('motor duty cycle: maxReverse');
+      servo.setDutyCycle(motorPin, maxReverse, callback);
     },
     function(callback) {
       setTimeout(callback, delay);
     },
     function(callback) {
-      console.log('duty cycle: neutral');
-      servo.setDutyCycle(servo1, neutral, callback);
+      console.log('motor duty cycle: neutral');
+      servo.setDutyCycle(motorPin, neutral, callback);
     },
     function(callback) {
       done();
@@ -53,8 +54,12 @@ servo.on('ready', function () {
       callback();
     },
     function(callback) {
-      console.log('duty cycle: neutral');
-      servo.setDutyCycle(servo1, neutral, callback);
+      console.log('motor duty cycle: neutral');
+      servo.setDutyCycle(motorPin, neutral, callback);
+    },
+    function(callback) {
+      console.log('rudder duty cycle: neutral');
+      servo.setDutyCycle(rudderPin, neutral, callback);
     }
   ]);
 });
@@ -75,9 +80,9 @@ process.stdin.on('data', function (data) {
   } else {
     var dutyCycle = parseFloat(data);
 
-    if (dutyCycle > 0.1 && dutyCycle < 0.2) {
+    if (dutyCycle >= 0.1 && dutyCycle <= 0.2) {
       console.log('setting duty cycle to: ', dutyCycle);
-      servo.setDutyCycle(servo1, dutyCycle);
+      servo.setDutyCycle(rudderPin, dutyCycle);
     }
   }
 });
