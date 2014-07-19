@@ -1,3 +1,6 @@
+var http = require('http');
+var url = require('url');
+
 var async = require('async');
 
 var tessel = require('tessel');
@@ -64,10 +67,6 @@ servo.on('ready', function () {
   ]);
 });
 
-// ?.??? -> reverse -> 1.0 ms               0.114
-// 0.171 -> neutral -> 1.5 ms ??? 1.48 ms
-// ?.??? -> forward -> 2.0 ms               0.228
-
 process.stdin.resume();
 process.stdin.on('data', function (data) {
   data = String(data).replace(/[\r\n]*$/, '');  //  Removes the line endings
@@ -85,5 +84,54 @@ process.stdin.on('data', function (data) {
       servo.setDutyCycle(rudderPin, dutyCycle);
     }
   }
+});
+
+setImmediate(function start () {
+  http.createServer(function (req, res) {
+    var uri = url.parse(req.url).pathname;
+
+    console.log(uri);
+    var match = uri.match(/^\/(.*)\/(.*)$/);
+
+    if (match) {
+      if (match[1] === 'rudder') {
+        var dutyCycle = parseFloat(match[2]);
+
+        if (dutyCycle > maxForward) {
+          dutyCycle = maxForward;
+        } else if (dutyCycle < maxReverse) {
+          dutyCycle = maxReverse;
+        }
+
+        console.log('setting rudder duty cycle to: ', dutyCycle);
+        servo.setDutyCycle(rudderPin, dutyCycle);
+
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('done!');
+      } else if (match[1] === 'motor') {
+        var dutyCycle = parseFloat(match[2]);
+
+        if (dutyCycle > maxForward) {
+          dutyCycle = maxForward;
+        } else if (dutyCycle < maxReverse) {
+          dutyCycle = maxReverse;
+        }
+
+        console.log('setting motor duty cycle to: ', dutyCycle);
+        servo.setDutyCycle(motorPin, dutyCycle);
+
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('done!');
+      } else {
+        console.log('Not found: ', match[1]);
+        res.writeHead(404, {'Content-Type': 'text/plain'});
+        res.end('Not found!');
+      }
+    } else {
+      console.log('Not found');
+      res.writeHead(404, {'Content-Type': 'text/plain'});
+      res.end('Not found!');
+    }
+  }).listen(80);
 });
 
