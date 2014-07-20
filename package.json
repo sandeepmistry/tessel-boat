@@ -2,7 +2,6 @@
   "name": "tessel-boat",
   "version": "0.0.0",
   "description": "tessel + traxxas spartan boat",
-  "main": "web/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -20,5 +19,9 @@
     "async": "^0.9.0",
     "express": "~4.6.1",
     "ws": "~0.4.31"
+  },
+  "devDependencies": {
+    "servo-pca9685": "~0.1.2",
+    "tessel": "~0.3.8"
   }
 }
