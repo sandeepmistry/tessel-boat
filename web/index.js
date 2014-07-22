@@ -9,6 +9,7 @@ var port = process.env.PORT || 5000;
 app.use(express.static(__dirname + '/www'));
 
 var server = http.createServer(app);
+
 server.listen(port);
 
 console.log('http server listening on %d', port);
@@ -17,7 +18,7 @@ var wss = new WebSocketServer({server: server});
 console.log('websocket server created');
 
 var browserWs = null;
-var tesselWs = null;
+var tesselSocket = null;
 
 function sendBrowser(message) {
   if (browserWs) {
@@ -26,8 +27,8 @@ function sendBrowser(message) {
 }
 
 function sendTessel(message) {
-  if (tesselWs) {
-    tesselWs.send(JSON.stringify(message));
+  if (tesselSocket) {
+    tesselSocket.write(message);
   }
 }
 
@@ -55,30 +56,37 @@ wss.on('connection/browser', function(ws) {
   });
 });
 
-wss.on('connection/tessel', function(ws) {
-  if (tesselWs) {
-    tesselWs.close();
-  }
-  tesselWs = ws;
+var jot = require('json-over-tcp');
 
-  console.log('websocket tessel connection open');
+var server = jot.createServer();
+
+server.on('connection', function(socket) {
+  if (tesselSocket) {
+    tesselSocket.close();
+  }
+
+  tesselSocket = socket;
+
+  console.log('socket tessel connection open');
 
   sendBrowser({
     connected: true
   });
 
-  ws.on('message', function(data) {
-    var message = JSON.parse(data);
-
+  tesselSocket.on('data', function(data) {
     sendBrowser(message);
   });
 
-  ws.on('close', function() {
-    console.log('websocket tessel connection close');
-    tesselWs = null;
+  tesselSocket.on('close', function(data) {
+    console.log('socket tessel connection close');
+
+    tesselSocket = null;
 
     sendBrowser({
       connected: false
     });
-  });
+  }); 
 });
+
+// Start listening
+server.listen(5001);

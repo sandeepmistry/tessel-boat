@@ -45,6 +45,7 @@ Spartan.prototype._onServoReady = function() {
 };
 
 Spartan.prototype._setPinPercentage = function(pin, percentage, callback) {
+  percentage = parseFloat(percentage);
   var dutyCycle = (percentage / 100.0) * ((MAX_DUTY_CYCLE + MIN_DUTY_CYCLE) / 2.0) + MID_DUTY_CYCLE;
 
   if (dutyCycle < MIN_DUTY_CYCLE) {
@@ -56,7 +57,7 @@ Spartan.prototype._setPinPercentage = function(pin, percentage, callback) {
   // console.log('setting pin duty cycle: ', pin, dutyCycle);
 
   if (this._servo) {
-    this._servo.setDutyCycle(ping, dutyCycle, callback);
+    this._servo.setDutyCycle(pin, dutyCycle, callback);
   } else {
     callback();
   }

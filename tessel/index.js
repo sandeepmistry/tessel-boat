@@ -1,4 +1,4 @@
-var WebSocket = require('ws');
+var jot = require('json-over-tcp');
 
 var tessel = require('tessel');
 
@@ -49,23 +49,26 @@ process.stdin.on('data', function (data) {
   }
 });
 
+console.log(process.argv);
 
 var host = process.argv[2];
+var port = process.argv[3];
 
-function wsConnect() {
-  var ws = new WebSocket('ws://' + host + '/tessel');
+function socketConnect() {
+  var socket = jot.connect({
+    host: host,
+    port: port
+  });
 
-  ws.on('open', function() {
-    console.log('websocket opened');
+  socket.on('connect', function() {
+    console.log('connected');
 
     if (led1) {
       led1.toggle();    
     }
   });
 
-  ws.on('message', function(data, flags) {
-    var message = JSON.parse(data);
-
+  socket.on('data', function(message) {
     if (message.reset) {
       console.log('reseting ...');
       spartan.reset(function() {
@@ -95,10 +98,9 @@ function wsConnect() {
     }
   });
 
-  ws.on('close', function() {
-    console.log('websocket closed');
+  socket.on('close', function() {
+    console.log('close');
 
-    console.log('reseting ...');
     spartan.reset(function() {
       console.log('reset done!');
     });
@@ -107,16 +109,13 @@ function wsConnect() {
       led1.toggle();    
     }
 
-    ws = null;
-    process.nextTick(wsConnect);
+    socket = null;
+    setTimeout(socketConnect, 5000);
   });
 
-  ws.on('error', function() {
-    console.log('websocket error');
-
-    ws = null;
-    setTimeout(wsConnect, 5000);
+  socket.on('error', function() {
+    console.log('error');
   });
 }
 
-wsConnect();
+socketConnect();
