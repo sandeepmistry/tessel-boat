@@ -2,7 +2,7 @@ function init() {
   var wsUri = 'ws://' + location.host + '/browser';
 
   var serverStateElement = document.querySelector('.server-state');
-  var tesselStateElement = document.querySelector('.tessel-state');
+  var iosStateElement = document.querySelector('.ios-state');
 
   var rudderDirectionElement = document.querySelector('.rudder-direction');
   var motorSpeedElement = document.querySelector('.motor-speed');
@@ -19,14 +19,14 @@ function init() {
   };
   websocket.onclose = function(evt) {
     serverStateElement.innerHTML = 'disconnected';
-    tesselStateElement.innerHTML = 'unknown';
+    iosStateElement.innerHTML = 'unknown';
   };
   websocket.onmessage = function(evt) {
     var data = evt.data;
     var message = JSON.parse(data);
 
     if (message.connected !== undefined) {
-      tesselStateElement.innerHTML = message.connected ? 'connected' : 'disconnected';
+      iosStateElement.innerHTML = message.connected ? 'connected' : 'disconnected';
 
       rudderDirectionElement.innerHTML = rudderDirectionInput.value = 0;
       motorSpeedElement.innerHTML = motorSpeedInput.value = 0;
@@ -60,15 +60,6 @@ function init() {
   resetButton.onclick = function() {
     sendCommand({
       reset: true
-    });
-
-    rudderDirectionElement.innerHTML = rudderDirectionInput.value = 0;
-    motorSpeedElement.innerHTML = motorSpeedInput.value = 0;
-  };
-
-  calibrateButton.onclick = function() {
-    sendCommand({
-      calibrate: true
     });
 
     rudderDirectionElement.innerHTML = rudderDirectionInput.value = 0;

@@ -23,6 +23,10 @@
 		AF387919197F36B0002152F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AF387917197F36B0002152F1 /* InfoPlist.strings */; };
 		AF38791B197F36B0002152F1 /* TesselBoatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF38791A197F36B0002152F1 /* TesselBoatTests.m */; };
 		AF387925197F36F9002152F1 /* CoreBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF387924197F36F9002152F1 /* CoreBluetooth.framework */; };
+		AF38792D197F40E1002152F1 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF38792C197F40E1002152F1 /* Security.framework */; };
+		AF38792F197F40F1002152F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF38792E197F40F1002152F1 /* CFNetwork.framework */; };
+		AF387931197F4109002152F1 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AF387930197F4109002152F1 /* libicucore.dylib */; };
+		AF387935197F444B002152F1 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AF387934197F444B002152F1 /* SRWebSocket.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +61,13 @@
 		AF387918197F36B0002152F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		AF38791A197F36B0002152F1 /* TesselBoatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TesselBoatTests.m; sourceTree = "<group>"; };
 		AF387924197F36F9002152F1 /* CoreBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreBluetooth.framework; path = System/Library/Frameworks/CoreBluetooth.framework; sourceTree = SDKROOT; };
+		AF38792A197F40D9002152F1 /* libipsec.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libipsec.A.dylib; path = usr/lib/libipsec.A.dylib; sourceTree = SDKROOT; };
+		AF38792C197F40E1002152F1 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		AF38792E197F40F1002152F1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		AF387930197F4109002152F1 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		AF387932197F444B002152F1 /* SocketRocket-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SocketRocket-Prefix.pch"; sourceTree = "<group>"; };
+		AF387933197F444B002152F1 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
+		AF387934197F444B002152F1 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,6 +75,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF387931197F4109002152F1 /* libicucore.dylib in Frameworks */,
+				AF38792F197F40F1002152F1 /* CFNetwork.framework in Frameworks */,
+				AF38792D197F40E1002152F1 /* Security.framework in Frameworks */,
 				AF387925197F36F9002152F1 /* CoreBluetooth.framework in Frameworks */,
 				AF3878EF197F36B0002152F1 /* CoreGraphics.framework in Frameworks */,
 				AF3878F1197F36B0002152F1 /* UIKit.framework in Frameworks */,
@@ -106,6 +120,10 @@
 		AF3878EB197F36B0002152F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF387930197F4109002152F1 /* libicucore.dylib */,
+				AF38792E197F40F1002152F1 /* CFNetwork.framework */,
+				AF38792C197F40E1002152F1 /* Security.framework */,
+				AF38792A197F40D9002152F1 /* libipsec.A.dylib */,
 				AF387924197F36F9002152F1 /* CoreBluetooth.framework */,
 				AF3878EC197F36B0002152F1 /* Foundation.framework */,
 				AF3878EE197F36B0002152F1 /* CoreGraphics.framework */,
@@ -118,6 +136,9 @@
 		AF3878F2197F36B0002152F1 /* TesselBoat */ = {
 			isa = PBXGroup;
 			children = (
+				AF387932197F444B002152F1 /* SocketRocket-Prefix.pch */,
+				AF387933197F444B002152F1 /* SRWebSocket.h */,
+				AF387934197F444B002152F1 /* SRWebSocket.m */,
 				AF3878FB197F36B0002152F1 /* TBAppDelegate.h */,
 				AF3878FC197F36B0002152F1 /* TBAppDelegate.m */,
 				AF3878FE197F36B0002152F1 /* Main_iPhone.storyboard */,
@@ -258,6 +279,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF387935197F444B002152F1 /* SRWebSocket.m in Sources */,
 				AF387906197F36B0002152F1 /* TBViewController.m in Sources */,
 				AF3878FD197F36B0002152F1 /* TBAppDelegate.m in Sources */,
 				AF3878F9197F36B0002152F1 /* main.m in Sources */,

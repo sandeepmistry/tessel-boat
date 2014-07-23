@@ -15,6 +15,8 @@
 @property CBCharacteristic *motorCharacteristic;
 @property CBCharacteristic *rudderCharacteristic;
 
+@property SRWebSocket *websocket;
+
 @end
 
 @implementation TBAppDelegate
@@ -96,6 +98,12 @@
                          ];
     
     [self.tessel discoverServices:services];
+    
+    self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:@"ws://192.168.2.10:5000/ios"]];
+    
+    self.websocket.delegate = self;
+    
+    [self.websocket open];
 }
 
 - (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
@@ -104,6 +112,9 @@
     self.tessel = nil;
     self.motorCharacteristic = nil;
     self.rudderCharacteristic = nil;
+    
+    [self.websocket close];
+    self.websocket = nil;
     
     NSLog(@"starting BLE scan ...");
     [self.centralManager scanForPeripheralsWithServices:nil options:nil];
@@ -129,17 +140,60 @@
     
     self.motorCharacteristic = [service.characteristics objectAtIndex:0];
     self.rudderCharacteristic = [service.characteristics objectAtIndex:1];
-    
-//    NSMutableData* data = [NSMutableData dataWithCapacity:0];
-//    float z = 50;
-//    [data appendBytes:&z length:sizeof(float)];
-//    
-//    [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 {
     NSLog(@"value written to tessel");
+}
+
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket
+{
+    NSLog(@"websocket open");
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean
+{
+    NSLog(@"websocket close");
+    
+    NSMutableData* data = [NSMutableData dataWithCapacity:0];
+    float zero = 50;
+    [data appendBytes:&zero length:sizeof(zero)];
+    
+    [self.tessel writeValue:data forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
+
+    [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
+{
+    NSLog(@"websocket message");
+    
+    NSError *error = nil;
+    NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
+    
+    NSLog(@"%@", json);
+    
+    NSNumber *motorSpeed = [json objectForKey:@"motorSpeed"];
+    if (motorSpeed) {
+        NSMutableData* data = [NSMutableData dataWithCapacity:0];
+        float m = [motorSpeed floatValue];
+        [data appendBytes:&m length:sizeof(m)];
+
+        [self.tessel writeValue:data forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+    
+    NSNumber *rudderDirection = [json objectForKey:@"rudderDirection"];
+    if (rudderDirection) {
+        NSMutableData* data = [NSMutableData dataWithCapacity:0];
+        float r = [rudderDirection floatValue];
+        [data appendBytes:&r length:sizeof(r)];
+        
+        [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+    
+    
 }
 
 @end

@@ -18,7 +18,7 @@ var wss = new WebSocketServer({server: server});
 console.log('websocket server created');
 
 var browserWs = null;
-var tesselSocket = null;
+var iosWs = null;
 
 function sendBrowser(message) {
   if (browserWs) {
@@ -27,8 +27,8 @@ function sendBrowser(message) {
 }
 
 function sendTessel(message) {
-  if (tesselSocket) {
-    tesselSocket.write(message);
+  if (iosWs) {
+    iosWs.send(JSON.stringify(message));
   }
 }
 
@@ -56,4 +56,30 @@ wss.on('connection/browser', function(ws) {
   });
 });
 
+wss.on('connection/ios', function(ws) {
+  if (iosWs) {
+    iosWs.close();
+  }
+  iosWs = ws;
 
+  console.log('websocket ios connection open');
+
+  sendBrowser({
+    connected: true
+  });
+
+  ws.on('message', function(data) {
+    var message = JSON.parse(data);
+
+    sendBrowser(message);
+  });
+
+  ws.on('close', function() {
+    console.log('websocket ios connection close');
+    iosWs = null;
+
+    sendBrowser({
+      connected: false
+    });
+  });
+});
