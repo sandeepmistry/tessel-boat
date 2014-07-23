@@ -1,0 +1,486 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AF3878ED197F36B0002152F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3878EC197F36B0002152F1 /* Foundation.framework */; };
+		AF3878EF197F36B0002152F1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3878EE197F36B0002152F1 /* CoreGraphics.framework */; };
+		AF3878F1197F36B0002152F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3878F0197F36B0002152F1 /* UIKit.framework */; };
+		AF3878F7197F36B0002152F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AF3878F5197F36B0002152F1 /* InfoPlist.strings */; };
+		AF3878F9197F36B0002152F1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3878F8197F36B0002152F1 /* main.m */; };
+		AF3878FD197F36B0002152F1 /* TBAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = AF3878FC197F36B0002152F1 /* TBAppDelegate.m */; };
+		AF387900197F36B0002152F1 /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF3878FE197F36B0002152F1 /* Main_iPhone.storyboard */; };
+		AF387903197F36B0002152F1 /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AF387901197F36B0002152F1 /* Main_iPad.storyboard */; };
+		AF387906197F36B0002152F1 /* TBViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AF387905197F36B0002152F1 /* TBViewController.m */; };
+		AF387908197F36B0002152F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AF387907197F36B0002152F1 /* Images.xcassets */; };
+		AF38790F197F36B0002152F1 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF38790E197F36B0002152F1 /* XCTest.framework */; };
+		AF387910197F36B0002152F1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3878EC197F36B0002152F1 /* Foundation.framework */; };
+		AF387911197F36B0002152F1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF3878F0197F36B0002152F1 /* UIKit.framework */; };
+		AF387919197F36B0002152F1 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = AF387917197F36B0002152F1 /* InfoPlist.strings */; };
+		AF38791B197F36B0002152F1 /* TesselBoatTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AF38791A197F36B0002152F1 /* TesselBoatTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AF387912197F36B0002152F1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AF3878E1197F36AF002152F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AF3878E8197F36AF002152F1;
+			remoteInfo = TesselBoat;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AF3878E9197F36B0002152F1 /* TesselBoat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TesselBoat.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF3878EC197F36B0002152F1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		AF3878EE197F36B0002152F1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		AF3878F0197F36B0002152F1 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		AF3878F4197F36B0002152F1 /* TesselBoat-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesselBoat-Info.plist"; sourceTree = "<group>"; };
+		AF3878F6197F36B0002152F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AF3878F8197F36B0002152F1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		AF3878FA197F36B0002152F1 /* TesselBoat-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "TesselBoat-Prefix.pch"; sourceTree = "<group>"; };
+		AF3878FB197F36B0002152F1 /* TBAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBAppDelegate.h; sourceTree = "<group>"; };
+		AF3878FC197F36B0002152F1 /* TBAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBAppDelegate.m; sourceTree = "<group>"; };
+		AF3878FF197F36B0002152F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPhone.storyboard; sourceTree = "<group>"; };
+		AF387902197F36B0002152F1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
+		AF387904197F36B0002152F1 /* TBViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TBViewController.h; sourceTree = "<group>"; };
+		AF387905197F36B0002152F1 /* TBViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TBViewController.m; sourceTree = "<group>"; };
+		AF387907197F36B0002152F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		AF38790D197F36B0002152F1 /* TesselBoatTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TesselBoatTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AF38790E197F36B0002152F1 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		AF387916197F36B0002152F1 /* TesselBoatTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TesselBoatTests-Info.plist"; sourceTree = "<group>"; };
+		AF387918197F36B0002152F1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		AF38791A197F36B0002152F1 /* TesselBoatTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TesselBoatTests.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AF3878E6197F36AF002152F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF3878EF197F36B0002152F1 /* CoreGraphics.framework in Frameworks */,
+				AF3878F1197F36B0002152F1 /* UIKit.framework in Frameworks */,
+				AF3878ED197F36B0002152F1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF38790A197F36B0002152F1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF38790F197F36B0002152F1 /* XCTest.framework in Frameworks */,
+				AF387911197F36B0002152F1 /* UIKit.framework in Frameworks */,
+				AF387910197F36B0002152F1 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AF3878E0197F36AF002152F1 = {
+			isa = PBXGroup;
+			children = (
+				AF3878F2197F36B0002152F1 /* TesselBoat */,
+				AF387914197F36B0002152F1 /* TesselBoatTests */,
+				AF3878EB197F36B0002152F1 /* Frameworks */,
+				AF3878EA197F36B0002152F1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AF3878EA197F36B0002152F1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AF3878E9197F36B0002152F1 /* TesselBoat.app */,
+				AF38790D197F36B0002152F1 /* TesselBoatTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AF3878EB197F36B0002152F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AF3878EC197F36B0002152F1 /* Foundation.framework */,
+				AF3878EE197F36B0002152F1 /* CoreGraphics.framework */,
+				AF3878F0197F36B0002152F1 /* UIKit.framework */,
+				AF38790E197F36B0002152F1 /* XCTest.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		AF3878F2197F36B0002152F1 /* TesselBoat */ = {
+			isa = PBXGroup;
+			children = (
+				AF3878FB197F36B0002152F1 /* TBAppDelegate.h */,
+				AF3878FC197F36B0002152F1 /* TBAppDelegate.m */,
+				AF3878FE197F36B0002152F1 /* Main_iPhone.storyboard */,
+				AF387901197F36B0002152F1 /* Main_iPad.storyboard */,
+				AF387904197F36B0002152F1 /* TBViewController.h */,
+				AF387905197F36B0002152F1 /* TBViewController.m */,
+				AF387907197F36B0002152F1 /* Images.xcassets */,
+				AF3878F3197F36B0002152F1 /* Supporting Files */,
+			);
+			path = TesselBoat;
+			sourceTree = "<group>";
+		};
+		AF3878F3197F36B0002152F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AF3878F4197F36B0002152F1 /* TesselBoat-Info.plist */,
+				AF3878F5197F36B0002152F1 /* InfoPlist.strings */,
+				AF3878F8197F36B0002152F1 /* main.m */,
+				AF3878FA197F36B0002152F1 /* TesselBoat-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		AF387914197F36B0002152F1 /* TesselBoatTests */ = {
+			isa = PBXGroup;
+			children = (
+				AF38791A197F36B0002152F1 /* TesselBoatTests.m */,
+				AF387915197F36B0002152F1 /* Supporting Files */,
+			);
+			path = TesselBoatTests;
+			sourceTree = "<group>";
+		};
+		AF387915197F36B0002152F1 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				AF387916197F36B0002152F1 /* TesselBoatTests-Info.plist */,
+				AF387917197F36B0002152F1 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AF3878E8197F36AF002152F1 /* TesselBoat */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF38791E197F36B0002152F1 /* Build configuration list for PBXNativeTarget "TesselBoat" */;
+			buildPhases = (
+				AF3878E5197F36AF002152F1 /* Sources */,
+				AF3878E6197F36AF002152F1 /* Frameworks */,
+				AF3878E7197F36AF002152F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TesselBoat;
+			productName = TesselBoat;
+			productReference = AF3878E9197F36B0002152F1 /* TesselBoat.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AF38790C197F36B0002152F1 /* TesselBoatTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF387921197F36B0002152F1 /* Build configuration list for PBXNativeTarget "TesselBoatTests" */;
+			buildPhases = (
+				AF387909197F36B0002152F1 /* Sources */,
+				AF38790A197F36B0002152F1 /* Frameworks */,
+				AF38790B197F36B0002152F1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AF387913197F36B0002152F1 /* PBXTargetDependency */,
+			);
+			name = TesselBoatTests;
+			productName = TesselBoatTests;
+			productReference = AF38790D197F36B0002152F1 /* TesselBoatTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AF3878E1197F36AF002152F1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = TB;
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Sandeep Mistry";
+				TargetAttributes = {
+					AF38790C197F36B0002152F1 = {
+						TestTargetID = AF3878E8197F36AF002152F1;
+					};
+				};
+			};
+			buildConfigurationList = AF3878E4197F36AF002152F1 /* Build configuration list for PBXProject "TesselBoat" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AF3878E0197F36AF002152F1;
+			productRefGroup = AF3878EA197F36B0002152F1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AF3878E8197F36AF002152F1 /* TesselBoat */,
+				AF38790C197F36B0002152F1 /* TesselBoatTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AF3878E7197F36AF002152F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF387903197F36B0002152F1 /* Main_iPad.storyboard in Resources */,
+				AF387908197F36B0002152F1 /* Images.xcassets in Resources */,
+				AF387900197F36B0002152F1 /* Main_iPhone.storyboard in Resources */,
+				AF3878F7197F36B0002152F1 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF38790B197F36B0002152F1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF387919197F36B0002152F1 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AF3878E5197F36AF002152F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF387906197F36B0002152F1 /* TBViewController.m in Sources */,
+				AF3878FD197F36B0002152F1 /* TBAppDelegate.m in Sources */,
+				AF3878F9197F36B0002152F1 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AF387909197F36B0002152F1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AF38791B197F36B0002152F1 /* TesselBoatTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AF387913197F36B0002152F1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AF3878E8197F36AF002152F1 /* TesselBoat */;
+			targetProxy = AF387912197F36B0002152F1 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		AF3878F5197F36B0002152F1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF3878F6197F36B0002152F1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		AF3878FE197F36B0002152F1 /* Main_iPhone.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF3878FF197F36B0002152F1 /* Base */,
+			);
+			name = Main_iPhone.storyboard;
+			sourceTree = "<group>";
+		};
+		AF387901197F36B0002152F1 /* Main_iPad.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF387902197F36B0002152F1 /* Base */,
+			);
+			name = Main_iPad.storyboard;
+			sourceTree = "<group>";
+		};
+		AF387917197F36B0002152F1 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AF387918197F36B0002152F1 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		AF38791C197F36B0002152F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AF38791D197F36B0002152F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AF38791F197F36B0002152F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesselBoat/TesselBoat-Prefix.pch";
+				INFOPLIST_FILE = "TesselBoat/TesselBoat-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		AF387920197F36B0002152F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesselBoat/TesselBoat-Prefix.pch";
+				INFOPLIST_FILE = "TesselBoat/TesselBoat-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		AF387922197F36B0002152F1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TesselBoat.app/TesselBoat";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesselBoat/TesselBoat-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "TesselBoatTests/TesselBoatTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		AF387923197F36B0002152F1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/TesselBoat.app/TesselBoat";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "TesselBoat/TesselBoat-Prefix.pch";
+				INFOPLIST_FILE = "TesselBoatTests/TesselBoatTests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AF3878E4197F36AF002152F1 /* Build configuration list for PBXProject "TesselBoat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF38791C197F36B0002152F1 /* Debug */,
+				AF38791D197F36B0002152F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AF38791E197F36B0002152F1 /* Build configuration list for PBXNativeTarget "TesselBoat" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF38791F197F36B0002152F1 /* Debug */,
+				AF387920197F36B0002152F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		AF387921197F36B0002152F1 /* Build configuration list for PBXNativeTarget "TesselBoatTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AF387922197F36B0002152F1 /* Debug */,
+				AF387923197F36B0002152F1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AF3878E1197F36AF002152F1 /* Project object */;
+}
