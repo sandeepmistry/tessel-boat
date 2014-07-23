@@ -56,37 +56,4 @@ wss.on('connection/browser', function(ws) {
   });
 });
 
-var jot = require('json-over-tcp');
 
-var server = jot.createServer();
-
-server.on('connection', function(socket) {
-  if (tesselSocket) {
-    tesselSocket.close();
-  }
-
-  tesselSocket = socket;
-
-  console.log('socket tessel connection open');
-
-  sendBrowser({
-    connected: true
-  });
-
-  tesselSocket.on('data', function(data) {
-    sendBrowser(message);
-  });
-
-  tesselSocket.on('close', function(data) {
-    console.log('socket tessel connection close');
-
-    tesselSocket = null;
-
-    sendBrowser({
-      connected: false
-    });
-  }); 
-});
-
-// Start listening
-server.listen(5001);

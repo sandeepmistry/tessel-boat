@@ -1,5 +1,3 @@
-var jot = require('json-over-tcp');
-
 var tessel = require('tessel');
 
 var spartan = require('./spartan');
@@ -21,101 +19,85 @@ process.stdin.on('data', function (data) {
   var matched;
 
   if (data === 'calibrate') {
-    console.log('calibrating ...');
+    console.log('CLI: calibrating ...');
     spartan.calibrate(function() {
-      console.log('calibration done!');
+      console.log('SPARTAN: calibration done!');
     });
   } else if (data === 'reset') {
-    console.log('reseting ...');
+    console.log('CLI: reseting ...');
     spartan.reset(function() {
-      console.log('reset done!');
+      console.log('SPARTAN: reset done!');
     });
   } else if (matched = data.match(/^m(-?\d+\.?\d*?)$/)) {
     var percentage = parseFloat(matched[1], 10);
 
-    console.log('setting motor speed to ', percentage);
+    console.log('CLI: setting motor speed to ', percentage);
     spartan.setMotorSpeedPercentage(percentage, function() {
-      console.log('setting motor speed done!');
+      console.log('SPARTAN: setting motor speed done!');
     });
   } else if (matched = data.match(/^r(-?\d+\.?\d*?)$/)) {
     var percentage = matched[1];
 
-    console.log('setting rudder position to ', percentage);
+    console.log('CLI: setting rudder position to ', percentage);
     spartan.setRudderDirectionPercentage(percentage, function() {
-      console.log('setting rudder position done!');
+      console.log('SPARTAN: setting rudder position done!');
     });
   } else {
-    console.log('unknown command: ', data);
+    console.log('CLI: unknown command: ', data);
   }
 });
 
-console.log(process.argv);
+var ble = require('ble-ble113a').use(tessel.port['B']); 
 
-var host = process.argv[2];
-var port = process.argv[3];
+ble.on('ready', function(err) {
+  if (err) return console.log(err);
+  console.log('BLE: start advertising');
+  ble.startAdvertising();
 
-function socketConnect() {
-  var socket = jot.connect({
-    host: host,
-    port: port
-  });
+  if (led1) {
+    led1.write(0);
+  }
+});
 
-  socket.on('connect', function() {
-    console.log('connected');
+ble.on('connect', function() {
+  console.log("BLE: master connected");
 
-    if (led1) {
-      led1.toggle();    
-    }
-  });
+  if (led1) {
+    led1.write(1);
+  }
+});
 
-  socket.on('data', function(message) {
-    if (message.reset) {
-      console.log('reseting ...');
-      spartan.reset(function() {
-        console.log('reset done!');
-      });
-    }
+ble.on('remoteWrite', function(connection, index, data) {
+  console.log('BLE: remote write', index, data);
 
-    if (message.calibrate) {
-      console.log('calibrating ...');
-      spartan.calibrate(function() {
-        console.log('calibration done!');
-      });
-    }
+  if (index == 0 && data.length == 4) {
+    var speed = data.readFloatLE(0);
 
-    if (message.motorSpeed !== undefined) {
-      console.log('setting motor speed to ', message.motorSpeed);
-      spartan.setMotorSpeedPercentage(message.motorSpeed, function() {
-        console.log('setting motor speed done!');
-      });
-    }
-
-    if (message.rudderDirection !== undefined) {
-      console.log('setting rudder position to ', message.rudderDirection);
-      spartan.setRudderDirectionPercentage(message.rudderDirection, function() {
-        console.log('setting rudder position done!');
-      });
-    }
-  });
-
-  socket.on('close', function() {
-    console.log('close');
-
-    spartan.reset(function() {
-      console.log('reset done!');
+    console.log('BLE: setting motor speed to ', speed);
+    spartan.setMotorSpeedPercentage(speed, function() {
+      console.log('SPARTAN: setting motor speed done!');
     });
+  } else if (index == 1 && data.length == 4) {
+    var direction = data.readFloatLE(0);
 
-    if (led1) {
-      led1.toggle();    
-    }
+    console.log('BLE: setting rudder position to ', direction);
+    spartan.setRudderDirectionPercentage(direction, function() {
+      console.log('SPARTAN: setting rudder position done!');
+    });
+  }
+});
 
-    socket = null;
-    setTimeout(socketConnect, 5000);
+ble.on('disconnect', function() {
+  console.log("BLE: master disconnected");
+
+  spartan.reset(function() {
+    console.log('SPARTAN: reset done!');
   });
 
-  socket.on('error', function() {
-    console.log('error');
-  });
-}
+  if (led1) {
+    led1.write(0);
+  }
 
-socketConnect();
+  console.log('BLE: start advertising');
+  ble.startAdvertising();
+});

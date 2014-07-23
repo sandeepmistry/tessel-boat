@@ -18,11 +18,11 @@
   "dependencies": {
     "async": "^0.9.0",
     "express": "~4.6.1",
-    "ws": "~0.4.31",
-    "json-over-tcp": "~0.3.2"
+    "ws": "~0.4.31"
   },
   "devDependencies": {
     "tessel": "~0.3.8",
-    "servo-pca9685": "~0.1.2"
+    "servo-pca9685": "~0.1.2",
+    "ble-ble113a": "~0.1.9"
   }
 }
