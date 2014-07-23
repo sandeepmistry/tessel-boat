@@ -23,6 +23,7 @@
   "devDependencies": {
     "tessel": "~0.3.8",
     "servo-pca9685": "~0.1.2",
-    "ble-ble113a": "~0.1.9"
+    "ble-ble113a": "~0.1.9",
+    "bleno": "~0.1.5"
   }
 }
