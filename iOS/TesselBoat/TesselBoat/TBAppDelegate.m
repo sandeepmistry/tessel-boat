@@ -17,6 +17,8 @@
 
 @property SRWebSocket *websocket;
 
+@property CLLocationManager *locationManager;
+
 @end
 
 @implementation TBAppDelegate
@@ -27,6 +29,10 @@
     application.idleTimerDisabled = YES;
     
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.activityType = CLActivityTypeFitness;
+    self.locationManager.delegate = self;
     
     return YES;
 }
@@ -192,8 +198,26 @@
         
         [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
     }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    NSLog(@"location manager authoriazation status = %d", status);
     
+    [manager startUpdatingHeading];
+    [manager startUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
+{
+    NSLog(@"new location heading: %f %f", newHeading.magneticHeading, newHeading.trueHeading);
+}
+
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
+{
+    CLLocation *location = locations.firstObject;
     
+    NSLog(@"new location: %f %f %f, %f", location.coordinate.longitude, location.coordinate.latitude, location.course, location.speed);
 }
 
 @end

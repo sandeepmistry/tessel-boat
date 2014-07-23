@@ -8,11 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
+#import <CoreLocation/CoreLocation.h>
 
 #import "SRWebSocket.h"
 
 
-@interface TBAppDelegate : UIResponder <UIApplicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate, SRWebSocketDelegate>
+@interface TBAppDelegate : UIResponder <UIApplicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate, SRWebSocketDelegate, CLLocationManagerDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
