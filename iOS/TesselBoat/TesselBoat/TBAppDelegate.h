@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreBluetooth/CoreBluetooth.h>
 
-@interface TBAppDelegate : UIResponder <UIApplicationDelegate>
+
+@interface TBAppDelegate : UIResponder <UIApplicationDelegate, CBCentralManagerDelegate, CBPeripheralDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

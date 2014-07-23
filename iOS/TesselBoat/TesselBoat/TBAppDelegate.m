@@ -8,11 +8,24 @@
 
 #import "TBAppDelegate.h"
 
+@interface TBAppDelegate ()
+
+@property CBCentralManager *centralManager;
+@property CBPeripheral *tessel;
+@property CBCharacteristic *motorCharacteristic;
+@property CBCharacteristic *rudderCharacteristic;
+
+@end
+
 @implementation TBAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    application.idleTimerDisabled = YES;
+    
+    self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    
     return YES;
 }
 							
@@ -41,6 +54,92 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+{
+    if (central.state == CBCentralManagerStatePoweredOn) {
+        NSLog(@"starting BLE scan ...");
+        [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+    } else {
+        NSLog(@"stopping BLE scan ...");
+        [self.centralManager stopScan];
+    }
+}
+
+- (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
+{
+    if ([[advertisementData objectForKey:CBAdvertisementDataLocalNameKey] isEqualToString:@"Tessel"]) {
+        NSLog(@"discovered Tessel!");
+        
+        self.tessel = peripheral;
+        self.tessel.delegate = self;
+        
+        NSDictionary *options = @{
+                                  CBConnectPeripheralOptionNotifyOnConnectionKey: @YES,
+                                  CBConnectPeripheralOptionNotifyOnDisconnectionKey: @YES
+                                  };
+        
+        [self.centralManager connectPeripheral:peripheral options:options];
+        
+        NSLog(@"stopping BLE scan ...");
+        [self.centralManager stopScan];
+    }
+}
+
+- (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral
+{
+    NSLog(@"Tessel connected");
+    
+    NSArray *services =@[
+                         [CBUUID UUIDWithString:@"D752C5FB-1380-4CD5-B0EF-CAC7D72CFF20"]
+                         ];
+    
+    [self.tessel discoverServices:services];
+}
+
+- (void)centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error
+{
+    NSLog(@"Tessel disconnected");
+    self.tessel = nil;
+    self.motorCharacteristic = nil;
+    self.rudderCharacteristic = nil;
+    
+    NSLog(@"starting BLE scan ...");
+    [self.centralManager scanForPeripheralsWithServices:nil options:nil];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverServices:(NSError *)error
+{
+    NSLog(@"discovered tessel services");
+    
+    CBService *service = peripheral.services.firstObject;
+    
+    NSArray *characteristics = @[
+                                 [CBUUID UUIDWithString:@"883F1E6B-76F6-4DA1-87EB-6BDBDB617888"],
+                                 [CBUUID UUIDWithString:@"21819AB0-C937-4188-B0DB-B9621E1696CD"]
+                                 ];
+    
+    [self.tessel discoverCharacteristics:characteristics forService:service];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didDiscoverCharacteristicsForService:(CBService *)service error:(NSError *)error
+{
+    NSLog(@"discovered tessel characteristics");
+    
+    self.motorCharacteristic = [service.characteristics objectAtIndex:0];
+    self.rudderCharacteristic = [service.characteristics objectAtIndex:1];
+    
+//    NSMutableData* data = [NSMutableData dataWithCapacity:0];
+//    float z = 50;
+//    [data appendBytes:&z length:sizeof(float)];
+//    
+//    [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+}
+
+- (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
+{
+    NSLog(@"value written to tessel");
 }
 
 @end
