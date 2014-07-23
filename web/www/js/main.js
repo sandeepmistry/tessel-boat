@@ -40,19 +40,19 @@ function init() {
   window.onkeydown = function(event) {
     switch (window.event.keyCode) {
       case 37:
-        setRudderDirection(parseInt(rudderDirectionInput.value, 10) - parseInt(rudderDirectionInput.step, 10));
+        setRudderDirection(parseFloat(rudderDirectionInput.value, 10) - parseFloat(rudderDirectionInput.step, 10));
         break;
 
       case 38:
-        setMotorSpeed(parseInt(motorSpeedInput.value, 10) + parseInt(motorSpeedInput.step, 10));
+        setMotorSpeed(parseFloat(motorSpeedInput.value, 10) + parseFloat(motorSpeedInput.step, 10));
         break;
 
       case 39:
-        setRudderDirection(parseInt(rudderDirectionInput.value, 10) + parseInt(rudderDirectionInput.step, 10));
+        setRudderDirection(parseFloat(rudderDirectionInput.value, 10) + parseFloat(rudderDirectionInput.step, 10));
         break;
 
       case 40:
-        setMotorSpeed(parseInt(motorSpeedInput.value, 10) - parseInt(motorSpeedInput.step, 10));
+        setMotorSpeed(parseFloat(motorSpeedInput.value, 10) - parseFloat(motorSpeedInput.step, 10));
         break;
     }
   };
