@@ -28,6 +28,7 @@
 		AF387931197F4109002152F1 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = AF387930197F4109002152F1 /* libicucore.dylib */; };
 		AF387935197F444B002152F1 /* SRWebSocket.m in Sources */ = {isa = PBXBuildFile; fileRef = AF387934197F444B002152F1 /* SRWebSocket.m */; };
 		AF387937197F4516002152F1 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF387936197F4516002152F1 /* CoreLocation.framework */; };
+		AF387939197F494B002152F1 /* CoreMotion.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF387938197F494B002152F1 /* CoreMotion.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		AF387933197F444B002152F1 /* SRWebSocket.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SRWebSocket.h; sourceTree = "<group>"; };
 		AF387934197F444B002152F1 /* SRWebSocket.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SRWebSocket.m; sourceTree = "<group>"; };
 		AF387936197F4516002152F1 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		AF387938197F494B002152F1 /* CoreMotion.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMotion.framework; path = System/Library/Frameworks/CoreMotion.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF387939197F494B002152F1 /* CoreMotion.framework in Frameworks */,
 				AF387937197F4516002152F1 /* CoreLocation.framework in Frameworks */,
 				AF387931197F4109002152F1 /* libicucore.dylib in Frameworks */,
 				AF38792F197F40F1002152F1 /* CFNetwork.framework in Frameworks */,
@@ -123,6 +126,7 @@
 		AF3878EB197F36B0002152F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				AF387938197F494B002152F1 /* CoreMotion.framework */,
 				AF387936197F4516002152F1 /* CoreLocation.framework */,
 				AF387930197F4109002152F1 /* libicucore.dylib */,
 				AF38792E197F40F1002152F1 /* CFNetwork.framework */,

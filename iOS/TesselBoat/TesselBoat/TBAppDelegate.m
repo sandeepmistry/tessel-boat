@@ -19,6 +19,8 @@
 
 @property CLLocationManager *locationManager;
 
+@property CMMotionManager *motionManager;
+
 @end
 
 @implementation TBAppDelegate
@@ -33,6 +35,14 @@
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.activityType = CLActivityTypeFitness;
     self.locationManager.delegate = self;
+    
+    self.motionManager = [[CMMotionManager alloc] init];
+    
+    self.motionManager.accelerometerUpdateInterval = 1.0f;
+    [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
+        NSLog(@"accelerometer data: %f %f %f", accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
+        
+    }];
     
     return YES;
 }

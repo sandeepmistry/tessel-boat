@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <CoreLocation/CoreLocation.h>
+#import <CoreMotion/CoreMotion.h>
 
 #import "SRWebSocket.h"
 
