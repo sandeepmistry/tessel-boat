@@ -8,6 +8,26 @@
 
 #import "TBAppDelegate.h"
 
+static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
+
+@interface CBPeripheral (Float)
+
+- (void)writeFloatValue:(float)f forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type;
+
+@end
+
+@implementation CBPeripheral (Float)
+
+- (void)writeFloatValue:(float)f forCharacteristic:(CBCharacteristic *)characteristic type:(CBCharacteristicWriteType)type
+{
+    NSMutableData* data = [NSMutableData dataWithCapacity:0];
+    [data appendBytes:&f length:sizeof(f)];
+
+    [self writeValue:data forCharacteristic:characteristic type:type];
+}
+
+@end
+
 @interface TBAppDelegate ()
 
 @property CBCentralManager *centralManager;
@@ -40,7 +60,7 @@
     
     self.motionManager.accelerometerUpdateInterval = 1.0f;
     [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
-        NSLog(@"accelerometer data: %f %f %f", accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
+//        NSLog(@"accelerometer data: %f %f %f", accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
         
     }];
     
@@ -115,7 +135,7 @@
     
     [self.tessel discoverServices:services];
     
-    self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:@"ws://192.168.2.10:5000/ios"]];
+    self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:wsHost]];
     
     self.websocket.delegate = self;
     
@@ -163,6 +183,20 @@
     NSLog(@"value written to tessel");
 }
 
+- (void)connectWebSocket
+{
+    NSLog(@"connect websocket");
+
+    self.websocket.delegate = nil;
+    self.websocket = nil;
+
+    self.websocket = [[SRWebSocket alloc] initWithURL:[NSURL URLWithString:wsHost]];
+
+    self.websocket.delegate = self;
+
+    [self.websocket open];
+}
+
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket
 {
     NSLog(@"websocket open");
@@ -172,13 +206,24 @@
 {
     NSLog(@"websocket close");
     
-    NSMutableData* data = [NSMutableData dataWithCapacity:0];
-    float zero = 50;
-    [data appendBytes:&zero length:sizeof(zero)];
-    
-    [self.tessel writeValue:data forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
+    if (self.tessel) {
+        [self.tessel writeFloatValue:0 forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
 
-    [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+        [self.tessel writeFloatValue:0 forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+    
+        [self connectWebSocket];
+    }
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error
+{
+    NSLog(@"websocket error");
+
+    [self.websocket close];
+
+    if (self.tessel) {
+        [self performSelector:@selector(connectWebSocket) withObject:self afterDelay:5.0];
+    }
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
@@ -193,20 +238,19 @@
     
     NSNumber *motorSpeed = [json objectForKey:@"motorSpeed"];
     if (motorSpeed) {
-        NSMutableData* data = [NSMutableData dataWithCapacity:0];
-        float m = [motorSpeed floatValue];
-        [data appendBytes:&m length:sizeof(m)];
-
-        [self.tessel writeValue:data forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
+        [self.tessel writeFloatValue:[motorSpeed floatValue] forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
     }
     
     NSNumber *rudderDirection = [json objectForKey:@"rudderDirection"];
     if (rudderDirection) {
-        NSMutableData* data = [NSMutableData dataWithCapacity:0];
-        float r = [rudderDirection floatValue];
-        [data appendBytes:&r length:sizeof(r)];
+        [self.tessel writeFloatValue:[rudderDirection floatValue] forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+
+    NSNumber *reset = [json objectForKey:@"reset"];
+    if (reset && [reset boolValue]) {
+        [self.tessel writeFloatValue:0 forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
         
-        [self.tessel writeValue:data forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+        [self.tessel writeFloatValue:0 forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
     }
 }
 
@@ -220,14 +264,14 @@
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
-    NSLog(@"new location heading: %f %f", newHeading.magneticHeading, newHeading.trueHeading);
+//    NSLog(@"new location heading: %f %f", newHeading.magneticHeading, newHeading.trueHeading);
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-    CLLocation *location = locations.firstObject;
-    
-    NSLog(@"new location: %f %f %f, %f", location.coordinate.longitude, location.coordinate.latitude, location.course, location.speed);
+//    CLLocation *location = locations.firstObject;
+//
+//    NSLog(@"new location: %f %f %f, %f", location.coordinate.longitude, location.coordinate.latitude, location.course, location.speed);
 }
 
 @end
