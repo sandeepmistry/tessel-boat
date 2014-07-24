@@ -8,7 +8,11 @@
 
 #import "TBAppDelegate.h"
 
+#if 1
 static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
+#else
+static NSString *wsHost = @"http://tessel-boat.herokuapp.com/ios";
+#endif
 
 @interface CBPeripheral (Float)
 
