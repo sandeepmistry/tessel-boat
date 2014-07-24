@@ -20,7 +20,30 @@ function init() {
   var motorSpeedInput = document.querySelector('input[name="motor-speed"]');
 
   var resetButton = document.querySelector('.reset');
-  var calibrateButton = document.querySelector('.calibrate');
+
+  var mapOptions = {
+    zoom: 18,
+    mapTypeId: google.maps.MapTypeId.SATELLITE
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+  var boatMarker = new google.maps.Marker({
+      map: map,
+      title: 'Boat',
+  });
+
+  var destinationMarker = new google.maps.Marker({
+      map: map,
+      title: 'Destination',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png'
+  });
+
+  google.maps.event.addListener(map, 'rightclick', function(event) {
+    var lat = event.latLng.lat();
+    var lng = event.latLng.lng();
+
+    destinationMarker.setPosition(new google.maps.LatLng(lat, lng));
+});
 
   websocket = new WebSocket(wsUri);
   websocket.onopen = function(evt) {
@@ -63,12 +86,13 @@ function init() {
       trueHeadingElement.innerHTML = message.trueHeading;
     }
 
-    if (message.longitude !== undefined) {
+    if (message.longitude !== undefined && message.latitude !== undefined) {
       longitudeElement.innerHTML = message.longitude;
-    }
-
-    if (message.latitude !== undefined) {
       latitudeElement.innerHTML = message.latitude;
+
+      map.setCenter(new google.maps.LatLng(message.latitude, message.longitude));
+
+      boatMarker.setPosition(new google.maps.LatLng(message.latitude, message.longitude));
     }
 
     if (message.speed !== undefined) {
