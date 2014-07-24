@@ -6,6 +6,15 @@ function init() {
 
   var rudderDirectionElement = document.querySelector('.rudder-direction');
   var motorSpeedElement = document.querySelector('.motor-speed');
+  var accelerometerXElement = document.querySelector('.accelerometer-x');
+  var accelerometerYElement = document.querySelector('.accelerometer-y');
+  var accelerometerZElement = document.querySelector('.accelerometer-z');
+  var magneticHeadingElement = document.querySelector('.magnetic-heading');
+  var trueHeadingElement = document.querySelector('.true-heading');
+  var longitudeElement = document.querySelector('.longitude');
+  var latitudeElement = document.querySelector('.latitude');
+  var speedElement = document.querySelector('.speed');
+  var courseElement = document.querySelector('.course');
 
   var rudderDirectionInput = document.querySelector('input[name="rudder-direction"]');
   var motorSpeedInput = document.querySelector('input[name="motor-speed"]');
@@ -25,11 +34,49 @@ function init() {
     var data = evt.data;
     var message = JSON.parse(data);
 
+    // console.log(message);
+
     if (message.connected !== undefined) {
       iosStateElement.innerHTML = message.connected ? 'connected' : 'disconnected';
 
       rudderDirectionElement.innerHTML = rudderDirectionInput.value = 0;
       motorSpeedElement.innerHTML = motorSpeedInput.value = 0;
+    }
+
+    if (message.accelerometerX !== undefined) {
+      accelerometerXElement.innerHTML = message.accelerometerX;
+    }
+
+    if (message.accelerometerY !== undefined) {
+      accelerometerYElement.innerHTML = message.accelerometerY;
+    }
+
+    if (message.accelerometerZ !== undefined) {
+      accelerometerZElement.innerHTML = message.accelerometerZ;
+    }
+
+    if (message.magneticHeading !== undefined) {
+      magneticHeadingElement.innerHTML = message.magneticHeading;
+    }
+
+    if (message.trueHeading !== undefined) {
+      trueHeadingElement.innerHTML = message.trueHeading;
+    }
+
+    if (message.longitude !== undefined) {
+      longitudeElement.innerHTML = message.longitude;
+    }
+
+    if (message.latitude !== undefined) {
+      latitudeElement.innerHTML = message.latitude;
+    }
+
+    if (message.speed !== undefined) {
+      speedElement.innerHTML = message.speed;
+    }
+
+    if (message.course !== undefined) {
+      courseElement.innerHTML = message.course;
     }
   };
   websocket.onerror = function(evt) {

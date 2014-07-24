@@ -26,7 +26,7 @@ function sendBrowser(message) {
   }
 }
 
-function sendTessel(message) {
+function sendIos(message) {
   if (iosWs) {
     iosWs.send(JSON.stringify(message));
   }
@@ -43,14 +43,14 @@ wss.on('connection/browser', function(ws) {
   ws.on('message', function(data) {
     var message = JSON.parse(data);
 
-    sendTessel(message);
+    sendIos(message);
   });
 
   ws.on('close', function() {
     console.log('websocket browser connection close');
     browserWs = null;
 
-    sendTessel({
+    sendIos({
       reset: true
     });
   });

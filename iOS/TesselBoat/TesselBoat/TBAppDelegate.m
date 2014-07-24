@@ -41,6 +41,10 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
 
 @property CMMotionManager *motionManager;
 
+@property NSTimer *statusTimer;
+
+@property NSMutableDictionary *status;
+
 @end
 
 @implementation TBAppDelegate
@@ -50,6 +54,8 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
     // Override point for customization after application launch.
     application.idleTimerDisabled = YES;
     
+    [[UIDevice currentDevice] setBatteryMonitoringEnabled:YES];
+
     self.centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     
     self.locationManager = [[CLLocationManager alloc] init];
@@ -62,7 +68,16 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
     [self.motionManager startAccelerometerUpdatesToQueue:[NSOperationQueue currentQueue] withHandler:^(CMAccelerometerData *accelerometerData, NSError *error) {
 //        NSLog(@"accelerometer data: %f %f %f", accelerometerData.acceleration.x, accelerometerData.acceleration.y, accelerometerData.acceleration.z);
         
+        [self.status setObject:[NSNumber numberWithFloat:accelerometerData.acceleration.x] forKey:@"accelerometerX"];
+
+        [self.status setObject:[NSNumber numberWithFloat:accelerometerData.acceleration.y] forKey:@"accelerometerY"];
+
+        [self.status setObject:[NSNumber numberWithFloat:accelerometerData.acceleration.z] forKey:@"accelerometerZ"];
     }];
+
+    self.statusTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(sendStatus) userInfo:nil repeats:YES];
+
+    self.status = [[NSMutableDictionary alloc] init];
     
     return YES;
 }
@@ -229,18 +244,18 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message
 {
     NSLog(@"websocket message");
-    
+
     NSError *error = nil;
     NSData *data = [message dataUsingEncoding:NSUTF8StringEncoding];
     NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&error];
-    
+
     NSLog(@"%@", json);
-    
+
     NSNumber *motorSpeed = [json objectForKey:@"motorSpeed"];
     if (motorSpeed) {
         [self.tessel writeFloatValue:[motorSpeed floatValue] forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
     }
-    
+
     NSNumber *rudderDirection = [json objectForKey:@"rudderDirection"];
     if (rudderDirection) {
         [self.tessel writeFloatValue:[rudderDirection floatValue] forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
@@ -251,6 +266,25 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
         [self.tessel writeFloatValue:0 forCharacteristic:self.motorCharacteristic type:CBCharacteristicWriteWithResponse];
         
         [self.tessel writeFloatValue:0 forCharacteristic:self.rudderCharacteristic type:CBCharacteristicWriteWithResponse];
+    }
+}
+
+- (void)sendStatus
+{
+    if (self.websocket && self.websocket.readyState == SR_OPEN) {
+        
+        NSError *error;
+        NSData *json = [NSJSONSerialization dataWithJSONObject:self.status
+                                                           options:NSJSONWritingPrettyPrinted
+                                                             error:&error];
+        
+        if (json) {
+            NSString *string = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];;
+            
+            NSLog(@"sending status: %@", string);
+            
+            [self.websocket send:string];
+        }
     }
 }
 
@@ -265,13 +299,22 @@ static NSString *wsHost = @"ws://192.168.2.10:5000/ios";
 - (void)locationManager:(CLLocationManager *)manager didUpdateHeading:(CLHeading *)newHeading
 {
 //    NSLog(@"new location heading: %f %f", newHeading.magneticHeading, newHeading.trueHeading);
+
+    [self.status setObject:[NSNumber numberWithFloat:newHeading.magneticHeading] forKey:@"magneticHeading"];
+    [self.status setObject:[NSNumber numberWithFloat:newHeading.trueHeading] forKey:@"trueHeading"];
+
 }
 
 -(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
-//    CLLocation *location = locations.firstObject;
-//
+    CLLocation *location = locations.firstObject;
+
 //    NSLog(@"new location: %f %f %f, %f", location.coordinate.longitude, location.coordinate.latitude, location.course, location.speed);
+
+    [self.status setObject:[NSNumber numberWithFloat:location.coordinate.longitude] forKey:@"longitude"];
+    [self.status setObject:[NSNumber numberWithFloat:location.coordinate.latitude] forKey:@"latitude"];
+    [self.status setObject:[NSNumber numberWithFloat:location.course] forKey:@"course"];
+    [self.status setObject:[NSNumber numberWithFloat:location.speed] forKey:@"speed"];
 }
 
 @end
