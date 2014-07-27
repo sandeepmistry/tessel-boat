@@ -111,7 +111,7 @@ function init() {
 
     // nav algorithm
     if (destLat && destLng) {
-      var gain = 10;
+      var gain = 40;
       var speedThres = 10;
       var headingCalc = (message.speedThres > 10 && message.course !== -1) ? message.course : message.trueHeading;
 
@@ -127,16 +127,27 @@ function init() {
       console.log(headingCalc);
       console.log(headingDes);
 
+
+      if (headingCalc > 180) {
+        headingCalc = (headingCalc - 360);
+      }
+
+      if (headingDes > 180) {
+        headingDes = (headingDes - 360);
+      }
+
       var headingError = headingCalc - headingDes;
       var rudder = 0;
 
       if (headingError > 0) {
-        rudder = 1 * gain;
+        rudder = -1 * gain;
       } else {
-        rudder = -1 * gain
+        rudder = 1 * gain;
       }
 
       console.log(rudder);
+
+      setRudderDirection(rudder);
     }
 
   };
@@ -174,25 +185,25 @@ function init() {
     motorSpeedElement.innerHTML = motorSpeedInput.value = 0;
   };
 
-  function setRudderDirection(value) {
+  window.setRudderDirection = function setRudderDirection(value) {
     rudderDirectionElement.innerHTML = rudderDirectionInput.value = value;
 
     sendCommand({
       rudderDirection: value
     });
-  }
+  };
 
-  function setMotorSpeed(value) {
+  window.setMotorSpeed = function setMotorSpeed(value) {
     motorSpeedElement.innerHTML = motorSpeedInput.value = value;
 
     sendCommand({
       motorSpeed: value
     });
-  }
+  };
 
-  function sendCommand(command) {
+  window.sendCommand = function sendCommand(command) {
     websocket.send(JSON.stringify(command));
-  }
+  };
 }
 
 window.addEventListener('load', init, false);
@@ -212,17 +223,17 @@ var bearing = function(lat1, lon1, lat2, lon2) {
   var x = Math.cos(lat1)*Math.sin(lat2) -
           Math.sin(lat1)*Math.cos(lat2)*Math.cos(dLon);
   return Math.atan2(y, x).toBrng();
-}
+};
 
 Number.prototype.toRad = function() {  // convert degrees to radians
   return this * Math.PI / 180;
-}
+};
 
 Number.prototype.toDeg = function() {  // convert radians to degrees (signed)
   return this * 180 / Math.PI;
-}
+};
 
 Number.prototype.toBrng = function() {  // convert radians to degrees (as bearing: 0...360)
   return (this.toDeg()+360) % 360;
-}
+};
 
